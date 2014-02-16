@@ -11,3 +11,4 @@ Synopsis
   * responde with 204 when accept is Text
   * dont read file on every request
   * store path along with the others
+  * rewrite tests to use ginko or testify
