@@ -16,6 +16,7 @@ import (
 
 var redis_location = flag.String("redis", "127.0.0.1:6379", "Location of redis instance")
 var server_bind = flag.String("bind", "127.0.0.1:5000", "Location server should listen at")
+var handler_mount = flag.String("mount", "/", "Relative path where handler should be at")
 
 
 var client *redis.Client
@@ -64,7 +65,7 @@ func httpStore(res http.ResponseWriter, req *http.Request) {
 func main(){
   flag.Parse()
   initStorage(1)
-  http.HandleFunc("/", httpStore)
+  http.HandleFunc(*handler_mount, httpStore)
 	err := http.ListenAndServe(*server_bind, nil)
   errHndlr(err)
   defer client.Close()
