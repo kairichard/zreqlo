@@ -1,7 +1,9 @@
 package main
 
 import (
+	"bytes"
 	"encoding/json"
+	"io/ioutil"
 	"net/http"
 	"net/http/httptest"
 	"testing"
@@ -25,6 +27,28 @@ func TestHandlerRespondsWithAGif(t *testing.T) {
 	ctype := response.HeaderMap.Get("Content-Type")
 	if ctype != "image/gif" {
 		t.Fatalf("Content-Type expected %v:\n Got: %v", "image/gif", ctype)
+	}
+	rb, err := ioutil.ReadAll(response.Body)
+	errHndlr(err)
+	if bytes.Compare(rb, beacon) != 0 {
+		t.Fatalf("beacon was not in body: %v - %v", rb, beacon)
+	}
+}
+
+func TestHandlerRecordsRequestedPath(t *testing.T) {
+	defer tearDown()
+	q := "a=test"
+	path := "/somewhere/test"
+	request, _ := http.NewRequest("GET", path+"?"+q, nil)
+	response := httptest.NewRecorder()
+
+	httpStore(response, request)
+
+	res, _ := client.Cmd("LPOP", "incoming").Bytes()
+	var ri RequestInfo
+	json.Unmarshal(res, &ri)
+	if ri.Path != path {
+		t.Fatalf("path does not match %+v", ri)
 	}
 }
 

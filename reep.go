@@ -20,11 +20,20 @@ var (
 )
 
 var client *redis.Client
+var beacon []byte
 
 type RequestInfo struct {
 	Query     string
+	Path      string
 	UserAgent string
 	Time      int64
+}
+
+func init() {
+	_, filename, _, _ := runtime.Caller(0)
+	var e error
+	beacon, e = ioutil.ReadFile(path.Join(path.Dir(filename), "assets/1x1.gif"))
+	errHndlr(e)
 }
 
 func initStorage(db int) {
@@ -44,6 +53,7 @@ func errHndlr(err error) {
 func httpStore(res http.ResponseWriter, req *http.Request) {
 	ri := RequestInfo{
 		Query:     req.URL.RawQuery,
+		Path:      req.URL.Path,
 		UserAgent: req.UserAgent(),
 		Time:      time.Now().Unix(),
 	}
@@ -53,10 +63,6 @@ func httpStore(res http.ResponseWriter, req *http.Request) {
 		errHndlr(err)
 		client.Cmd("RPUSH", "incoming", string(b))
 	}
-
-	_, filename, _, _ := runtime.Caller(0)
-	beacon, err := ioutil.ReadFile(path.Join(path.Dir(filename), "assets/1x1.gif"))
-	errHndlr(err)
 
 	res.Header().Set("Content-Type", "image/gif")
 	res.Write(beacon)
