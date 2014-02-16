@@ -13,9 +13,11 @@ import (
 	"time"
 )
 
-var redis_location = flag.String("redis", "127.0.0.1:6379", "Location of redis instance")
-var server_bind = flag.String("bind", "127.0.0.1:5000", "Location server should listen at")
-var handler_mount = flag.String("mount", "/", "Relative path where handler should be at")
+var (
+	redis_location = flag.String("redis", "127.0.0.1:6379", "Location of redis instance")
+	server_bind    = flag.String("bind", "127.0.0.1:5000", "Location server should listen at")
+	handler_mount  = flag.String("mount", "/", "Relative path where handler should be at")
+)
 
 var client *redis.Client
 
