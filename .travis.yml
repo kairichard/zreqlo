@@ -1,1 +1,3 @@
 languages: go
+services:
+  - redis-server
