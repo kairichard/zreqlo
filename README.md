@@ -10,5 +10,4 @@ Synopsis
 ## Todo
   * responde with 204 when accept is Text
   * dont read file on every request
-  * clean up file structure to be more like the recommended on
   * store path along with the others
