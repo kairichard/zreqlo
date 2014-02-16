@@ -4,7 +4,6 @@ import (
   "os"
   "fmt"
   "time"
-  "log"
   "path"
   "flag"
   "runtime"
