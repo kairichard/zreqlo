@@ -6,12 +6,16 @@ import (
   "time"
   "log"
   "path"
+  "flag"
   "runtime"
   "io/ioutil"
   "net/http"
   "encoding/json"
   "github.com/fzzy/radix/redis"
 )
+
+var redis_location = flag.String("redis", "127.0.0.1:6379", "Location of redis instance")
+var server_bind = flag.String("bind", "127.0.0.1:5000", "Location server should listen at")
 
 
 var client *redis.Client
@@ -24,7 +28,7 @@ type RequestInfo struct {
 
 func initStorage(db int){
   var err error
-  client, err = redis.DialTimeout("tcp", "127.0.0.1:6379", time.Duration(10)*time.Second)
+  client, err = redis.DialTimeout("tcp", *redis_location, time.Duration(10)*time.Second)
   errHndlr(err)
   client.Cmd("SELECT", db)
 }
@@ -62,9 +66,10 @@ func httpStore(res http.ResponseWriter, req *http.Request) {
 }
 
 func main(){
+  flag.Parse()
   initStorage(1)
   http.HandleFunc("/", httpStore)
-	err := http.ListenAndServe(":5000", nil)
+	err := http.ListenAndServe(*server_bind, nil)
 	if err != nil {
 		log.Fatal("ListenAndServe: ", err)
 	}
