@@ -22,10 +22,21 @@ func TestHandlerRespondsWithAGif(t *testing.T) {
     response := httptest.NewRecorder()
 
     httpStore(response, request)
-    //b := response.Body.Bytes()
     ctype := response.HeaderMap.Get("Content-Type")
     if ctype != "image/gif"{
         t.Fatalf("Content-Type expected %v:\n Got: %v", "image/gif", ctype)
+    }
+}
+
+func TestHandlerDoesNotRecordAnythingWhenThereIsNoQuery(t *testing.T) {
+    defer tearDown()
+    request, _ := http.NewRequest("GET", "/", nil)
+    response := httptest.NewRecorder()
+
+    httpStore(response, request)
+    length, _ := client.Cmd("LLEN", "incoming").Int()
+    if length != 0 {
+      t.Fatalf("List should not contain entry")
     }
 }
 
