@@ -4,7 +4,10 @@ import (
   "os"
   "fmt"
   "time"
-  //"io/ioutil"
+  "log"
+  "path"
+  "runtime"
+  "io/ioutil"
   "net/http"
   "encoding/json"
   "github.com/fzzy/radix/redis"
@@ -12,7 +15,6 @@ import (
 
 
 var client *redis.Client
-// var image, err := ioutil.ReadFile("assets/1x1.gif")
 
 type RequestInfo struct {
   Query string
@@ -45,9 +47,21 @@ func httpStore(res http.ResponseWriter, req *http.Request) {
     fmt.Print(err)
   }
   client.Cmd("RPUSH", "incoming", string(b))
+  _, filename, _, _ := runtime.Caller(0)
+  beacon, err := ioutil.ReadFile(path.Join(path.Dir(filename), "../assets/1x1.gif"))
+	if err != nil {
+		log.Fatal(err)
+	}
+  res.Header().Set("Content-Type", "image/gif")
+  res.Write(beacon)
 }
 
 func main(){
   initStorage(1)
+  http.HandleFunc("/", httpStore)
+	err := http.ListenAndServe(":5000", nil)
+	if err != nil {
+		log.Fatal("ListenAndServe: ", err)
+	}
   defer client.Close()
 }
