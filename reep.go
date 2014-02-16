@@ -53,7 +53,7 @@ func httpStore(res http.ResponseWriter, req *http.Request) {
 	}
 
 	_, filename, _, _ := runtime.Caller(0)
-	beacon, err := ioutil.ReadFile(path.Join(path.Dir(filename), "../assets/1x1.gif"))
+	beacon, err := ioutil.ReadFile(path.Join(path.Dir(filename), "assets/1x1.gif"))
 	errHndlr(err)
 
 	res.Header().Set("Content-Type", "image/gif")
