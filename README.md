@@ -1,4 +1,4 @@
-Goreep
+Goreep - [![Build Status](https://travis-ci.org/kairichard/goreep.png?branch=master)](https://travis-ci.org/kairichard/goreep)
 ======
 ... is a simple service which logs `RawQuery` and `Useragent` into redis
 ```
@@ -8,4 +8,6 @@ Synopsis
   -mount="/": Relative path where handler should be at
 ```
 ## Todo
+
   * responde with 204 when accept is Text
+  * rewrite tests to use ginko or testify
