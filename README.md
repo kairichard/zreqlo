@@ -1,4 +1,4 @@
-Goreep - [![Build Status](https://travis-ci.org/kairichard/goreep.png?branch=master)](https://travis-ci.org/kairichard/goreep)
+Request Logger - [![Build Status](https://travis-ci.org/kairichard/request_logger.png?branch=master)](https://travis-ci.org/kairichard/request_logger)
 ======
 ... is a simple service which logs `RawQuery` and `Useragent` into redis
 ```
