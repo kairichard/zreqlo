@@ -1,4 +1,4 @@
-Request Logger - [![Build Status](https://travis-ci.org/kairichard/request_logger.png?branch=master)](https://travis-ci.org/kairichard/request_logger)
+Request Logger - [![Build Status](https://travis-ci.org/kairichard/zreqlo.png?branch=master)](https://travis-ci.org/kairichard/request_logger)
 ======
 ... is a simple service which logs `RawQuery` and `Useragent` into redis
 ```
