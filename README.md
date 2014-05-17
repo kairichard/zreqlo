@@ -1,6 +1,11 @@
-Request Logger - [![Build Status](https://travis-ci.org/kairichard/zreqlo.png?branch=master)](https://travis-ci.org/kairichard/request_logger)
-======
-... is a simple service which logs `RawQuery` and `Useragent` into redis
+Zreqlo, a simple request logger
+----
+[![Build Status](https://travis-ci.org/kairichard/zreqlo.png?branch=master)](https://travis-ci.org/kairichard/request_logger)
+
+
+This can be used to write `RawQuery` and `Useragent` into redis for later processing. 
+This is mainly an exercise in golang.
+
 ```
 Synopsis
   -bind="127.0.0.1:5000": Location server should listen at
